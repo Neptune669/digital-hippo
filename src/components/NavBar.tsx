@@ -29,7 +29,7 @@ const NavBar = () => {
                       className={buttonVariants({
                         variant: "ghost",
                       })}
-                      href="/login"
+                      href="/sign-in"
                     >
                       Login
                     </Link>
