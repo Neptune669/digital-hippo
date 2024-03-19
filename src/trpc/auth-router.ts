@@ -1,9 +1,8 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { getPayloadClient } from "../get-payload";
 import { AuthCredentialsValidator } from "../lib/validators/account-credentials-validator";
-import { router, publicProcedure } from "./trpc";
-import { TRPCError } from "@trpc/server";
-import payload from "payload";
+import { publicProcedure, router } from "./trpc";
 
 export const authRouter = router({
   createPayloadUser: publicProcedure
@@ -79,4 +78,8 @@ export const authRouter = router({
         throw new TRPCError({ code: "UNAUTHORIZED" });
       }
     }),
+
+  sayHi: publicProcedure.query(() => {
+    return "hi";
+  }),
 });
