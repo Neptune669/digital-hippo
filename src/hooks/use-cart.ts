@@ -2,7 +2,7 @@ import { Product } from "@/payload-types";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-type CartItem = {
+export type CartItem = {
   product: Product;
 };
 
@@ -18,18 +18,14 @@ export const useCart = create<CartState>()(
     (set) => ({
       items: [],
       addItem: (product) =>
-        set((state) => ({ items: [...state.items, { product }] })),
-      removeItem: (productId) =>
         set((state) => {
-          const index = state.items.findIndex(
-            (item) => item.product.id === productId
-          );
-          if (index === -1) return state; // No item found, return state as is
-          const newItems = [...state.items];
-          newItems.splice(index, 1); // Remove only the first occurrence
-          return { items: newItems };
+          return { items: [...state.items, { product }] };
         }),
-      clearCart: () => set(() => ({ items: [] })),
+      removeItem: (id) =>
+        set((state) => ({
+          items: state.items.filter((item) => item.product.id !== id),
+        })),
+      clearCart: () => set({ items: [] }),
     }),
     {
       name: "cart-storage",
